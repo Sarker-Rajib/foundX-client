@@ -8,9 +8,11 @@ export default async function RecentItems() {
   return (
     <div>
       <h2>Recent Items</h2>
-      {
-        data.map((item, i: number) => <MyCard key={i} post={item} />)
-      }
+      <div className="grid grid-cols-3">
+        {
+          data.map((item, i: number) => <MyCard key={i} post={item} />)
+        }
+      </div>
     </div>
   );
 };

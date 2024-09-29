@@ -5,7 +5,7 @@ export const getRecentPosts = async () => {
   const res = await fetch(`${envConfig.baseApi}/items`);
   const data = await res.json();
 
-  await delay(5000);
+  await delay(2000);
 
   return data;
 }
