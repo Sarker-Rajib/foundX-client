@@ -1,35 +1,33 @@
-import { useForm, SubmitHandler } from "react-hook-form"
-type Inputs = {
-  example: string
-  exampleRequired: string
-}
+"use client"
+
+import FXForm from "@/src/components/form/FXForm";
+import FxInput from "@/src/components/form/FxInput";
+import { Card, CardHeader, CardBody, Button } from "@nextui-org/react";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { loginValidationSchema } from "@/src/schemas/login.schema";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 
 const Login = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Inputs>()
+  const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
+    console.log(data);
+  }
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
-
-  console.log(watch("example"))
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* register your input into the hook by invoking the "register" function */}
-          <input defaultValue="test" {...register("example")} />
-
-          {/* include validation with required or other standard HTML validation rules */}
-          <input {...register("exampleRequired", { required: true })} />
-          {/* errors will return when field validation fails  */}
-          {errors.exampleRequired && <span>This field is required</span>}
-
-          <input type="submit" />
-        </form>
-      </div>
+      <Card className="py-4 w-[375px] border-green-500 border">
+        <CardHeader className="pb-0 pt-2 px-4 flex-col items-center">
+          <h4 className="font-bold text-large">Login</h4>
+        </CardHeader>
+        <CardBody className="overflow-visible py-2">
+          <FXForm onSubmit={onSubmit} resolver={zodResolver(loginValidationSchema)}>
+            <FxInput label="Email" type="email" name="email" />
+            <FxInput label="Password" type="password" name="password" />
+            <Button type="submit" className="w-full mt-4" >
+              Submit
+            </Button>
+          </FXForm>
+        </CardBody>
+      </Card>
     </div>
   );
 };

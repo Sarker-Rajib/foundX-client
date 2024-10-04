@@ -1,28 +1,36 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-type TUser = {
-  name: string;
-  token: string;
-  role: string;
-};
-
 const AuthRoutes = ["/login", "/register"];
-const RoleBasedRoutes: Record<string, RegExp[]> = {
+
+// type TUser = {
+//   name: string;
+//   token: string;
+//   role: string;
+// };
+
+type TRole = keyof typeof RoleBasedRoutes
+
+const RoleBasedRoutes = {
   USER: [/^\/profile/],
   ADMIN: [/^\/admin/],
 };
 
-type TRole = keyof typeof RoleBasedRoutes
+// const RoleBasedRoutes: Record<string, RegExp[]> = {
+//   USER: [/^\/profile/],
+//   ADMIN: [/^\/admin/],
+// };
+
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Mock user for demonstration purposes
-  const user: TUser | undefined = {
+  // const user = {}
+  const user = {
     name: "Rajib",
     token: "kjhfgiuyr",
-    role: "USER",
+    role: "ADMIN",
   };
 
   // If the user is not authenticated
@@ -30,15 +38,13 @@ export function middleware(request: NextRequest) {
     if (AuthRoutes.includes(pathname)) {
       return NextResponse.next();
     } else {
-      return NextResponse.redirect(new URL("/login", request.url));
+      return NextResponse.redirect(new URL("/", request.url));
     }
   }
 
-  // Check if the user's role has any specific routes
-  if (user?.role && RoleBasedRoutes[user?.role]) {
-    const routes = RoleBasedRoutes[user?.role];
+  if (user?.role && RoleBasedRoutes[user?.role as TRole]) {
+    const routes = RoleBasedRoutes[user?.role as TRole];
 
-    // Check if the current pathname matches any of the routes
     if (routes.some((route) => pathname.match(route))) {
       return NextResponse.next();
     }
@@ -49,7 +55,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin', "/login", "/register", '/profile'],
+  matcher: ['/admin', '/profile'],
 };
 
 
