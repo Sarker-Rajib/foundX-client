@@ -5,7 +5,7 @@ export type IconSvgProps = SVGProps<SVGSVGElement> & {
 };
 
 export interface IPost {
-  _id:string,
+  _id: string,
   title: string,
   description: string,
   images: string[],
@@ -23,23 +23,31 @@ export interface IPost {
 };
 
 export interface Icategory {
-  _id:string,
-  name:string,
-  postCount:number,
-  isDeleted:boolean,
-  createdAt:string,
-  updatedAt:string,
-  __v:number,
+  _id: string,
+  name: string,
+  postCount: number,
+  isDeleted: boolean,
+  createdAt: string,
+  updatedAt: string,
+  __v: number,
 }
 
 export interface IUser {
-  _id:string,
-  name:string,
-  role:string,
-  email:string,
-  status:string,
-  mobileNumber:string,
-  profilePhoto:string,
-  createdAt:string,
-  updatedAt:string,
+  _id: string,
+  name: string,
+  role: string,
+  email: string,
+  status: string,
+  mobileNumber: string,
+  profilePhoto: string,
+  createdAt: string,
+  updatedAt: string,
+}
+
+export interface TUserRegister {
+  name: string,
+  email: string,
+  mobileNumber: string,
+  password: string,
+  profilePhoto: string
 }

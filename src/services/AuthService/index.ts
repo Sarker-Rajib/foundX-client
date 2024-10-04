@@ -12,9 +12,9 @@ export const registerUser = async (userData: FieldValues) => {
     if (data.success) {
       cookies().set("accessToken", data?.data?.accessToken);
       cookies().set("refreashToken", data?.data?.refreshToken);
-
     }
 
+    return data;
   } catch (error: any) {
     throw new Error(error)
   }

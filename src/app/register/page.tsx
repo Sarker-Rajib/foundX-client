@@ -6,18 +6,18 @@ import { Card, CardHeader, CardBody, Button } from "@nextui-org/react";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { registerValidationSchema } from "@/src/schemas/register.shema";
-import { registerUser } from "@/src/services/AuthService";
+import { useUserRegistration } from "@/src/hooks/auth.hook";
 
 const Register = () => {
+  const { mutate: handleUserRrgistration, isPending } = useUserRegistration()
+
   const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
     const userData = {
       ...data,
       profilePhoto: "https://cdn-icons-png.flaticon.com/512/3607/3607444.png"
     }
-
-    console.log('from form', userData);
-
-    registerUser(userData)
+    // console.log('from form', userData);
+    handleUserRrgistration(userData)
   }
 
   return (

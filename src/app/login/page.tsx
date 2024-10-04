@@ -19,7 +19,12 @@ const Login = () => {
           <h4 className="font-bold text-large">Login</h4>
         </CardHeader>
         <CardBody className="overflow-visible py-2">
-          <FXForm onSubmit={onSubmit} resolver={zodResolver(loginValidationSchema)}>
+          <FXForm
+            defaultValues={{
+              email: "abcd@email.com",
+              password: "123456"
+            }}
+            onSubmit={onSubmit} resolver={zodResolver(loginValidationSchema)}>
             <FxInput label="Email" type="email" name="email" />
             <FxInput label="Password" type="password" name="password" />
             <Button type="submit" className="w-full mt-4" >
