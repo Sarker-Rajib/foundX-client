@@ -1,6 +1,6 @@
 const ClaimRequests = () => {
   return (
-    <div>
+    <div className="p-2">
       <p>cl</p>
     </div>
   );

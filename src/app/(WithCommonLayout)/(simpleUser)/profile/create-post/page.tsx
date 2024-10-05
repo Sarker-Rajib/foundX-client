@@ -1,6 +1,6 @@
 const CreatePost = () => {
   return (
-    <div>
+    <div className="p-2">
       <p>cr</p>
     </div>
   );
