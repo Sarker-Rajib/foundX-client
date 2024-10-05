@@ -20,10 +20,10 @@ import {
 } from "@/src/components/icons";
 
 import DropDownButton from "./UI/navbarDrop";
-import { Button } from "@nextui-org/button";
-import { logOutUser } from "../services/AuthService";
+import { useUser } from "@/src/context/user.provider";
 
 export const Navbar = () => {
+  const { user } = useUser()
 
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
@@ -60,12 +60,12 @@ export const Navbar = () => {
           <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex gap-2">
-          <DropDownButton />
-          <Button
-            onClick={() => logOutUser()}
-          >
-            Logout
-          </Button>
+          {
+            user?.email ?
+              <DropDownButton />
+              :
+              <Link className="border rounded p-2 bg-primary text-white" href="/login">Login</Link>
+          }
         </NavbarItem>
       </NavbarContent>
 
