@@ -1,3 +1,4 @@
+'use client'
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -19,6 +20,8 @@ import {
 } from "@/src/components/icons";
 
 import DropDownButton from "./UI/navbarDrop";
+import { Button } from "@nextui-org/button";
+import { logOutUser } from "../services/AuthService";
 
 export const Navbar = () => {
 
@@ -57,8 +60,12 @@ export const Navbar = () => {
           <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex gap-2">
-          {/* <Avatar name="Junior" /> */}
           <DropDownButton />
+          <Button
+            onClick={() => logOutUser()}
+          >
+            Logout
+          </Button>
         </NavbarItem>
       </NavbarContent>
 

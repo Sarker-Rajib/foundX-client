@@ -7,13 +7,26 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { loginValidationSchema } from "@/src/schemas/login.schema";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useUserLogin } from "@/src/hooks/auth.hook";
+import { useRouter, useSearchParams } from "next/navigation";
 
-const Login = () => {
-  const { mutate: handleUserLogin, isPending } = useUserLogin();
+const LoginPage = () => {
+  const searchParams = useSearchParams()
+  const redirect = searchParams.get('redirect')
+  const router = useRouter()
+
+  const { mutate: handleUserLogin, isPending, isSuccess } = useUserLogin();
 
   const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
     // console.log(data);
     handleUserLogin(data)
+  }
+
+  if (!isPending && isSuccess) {
+    if (redirect) {
+      router.push(redirect)
+    } else {
+      router.push('/')
+    }
   }
 
   return (
@@ -49,4 +62,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

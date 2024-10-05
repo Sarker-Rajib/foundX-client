@@ -52,11 +52,10 @@ export interface TUserRegister {
   profilePhoto: string
 }
 
-export interface ITokenUSer {
+export interface TTokenUser {
   _id: string,
   name: string,
   role: string,
   email: string,
-  status: string,
-
+  mobileNumber: string
 }
