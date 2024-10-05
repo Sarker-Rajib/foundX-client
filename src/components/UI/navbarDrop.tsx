@@ -34,9 +34,9 @@ export default function DropDownButton() {
         </DropdownItem>
         <DropdownItem
           key={'about'}
-          onClick={() => router.push("/profile/about")}
+          onClick={() => router.push("/profile/create-post")}
         >
-          About
+          Create Post
         </DropdownItem>
         <DropdownItem
           key={'claim'}
