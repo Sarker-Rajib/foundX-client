@@ -1,13 +1,8 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { getCurrentUser } from './services/AuthService';
 
 const AuthRoutes = ["/login", "/register"];
-
-// type TUser = {
-//   name: string;
-//   token: string;
-//   role: string;
-// };
 
 type TRole = keyof typeof RoleBasedRoutes
 
@@ -16,22 +11,12 @@ const RoleBasedRoutes = {
   ADMIN: [/^\/admin/],
 };
 
-// const RoleBasedRoutes: Record<string, RegExp[]> = {
-//   USER: [/^\/profile/],
-//   ADMIN: [/^\/admin/],
-// };
 
-
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Mock user for demonstration purposes
-  // const user = {}
-  const user = {
-    name: "Rajib",
-    token: "kjhfgiuyr",
-    role: "ADMIN",
-  };
+  const user = await getCurrentUser()
+  // console.log(user);
 
   // If the user is not authenticated
   if (!user) {
@@ -57,7 +42,6 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: ['/admin', '/profile'],
 };
-
 
 // import { NextResponse } from "next/server";
 // import { NextRequest } from "next/server";

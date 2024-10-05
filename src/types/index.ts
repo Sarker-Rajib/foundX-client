@@ -51,3 +51,12 @@ export interface TUserRegister {
   password: string,
   profilePhoto: string
 }
+
+export interface ITokenUSer {
+  _id: string,
+  name: string,
+  role: string,
+  email: string,
+  status: string,
+
+}
