@@ -7,15 +7,16 @@ import { useRouter } from "next/navigation";
 
 export default function DropDownButton() {
   const router = useRouter();
-  const { setIsLoading } = useUser();
+  const { user, setIsLoading } = useUser();
 
   return (
     <Dropdown>
       <DropdownTrigger>
         <Button
+          className="w-[50px] p-0"
           variant="light"
         >
-          <Avatar isBordered radius="full" src="https://i.pravatar.cc/150?u=a04258114e29026708c" />
+          <Avatar isBordered radius="full" src={user?.profilePhoto} />
         </Button>
       </DropdownTrigger>
       <DropdownMenu aria-label="Nav Actions" >

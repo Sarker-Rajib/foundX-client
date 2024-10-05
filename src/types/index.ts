@@ -58,4 +58,5 @@ export interface TTokenUser {
   role: string,
   email: string,
   mobileNumber: string
+  profilePhoto: string
 }

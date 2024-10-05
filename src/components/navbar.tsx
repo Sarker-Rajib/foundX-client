@@ -23,7 +23,7 @@ import DropDownButton from "./UI/navbarDrop";
 import { useUser } from "@/src/context/user.provider";
 
 export const Navbar = () => {
-  const { user } = useUser()
+  const { user } = useUser();
 
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
@@ -58,8 +58,6 @@ export const Navbar = () => {
       >
         <NavbarItem className="hidden lg:flex gap-2">
           <ThemeSwitch />
-        </NavbarItem>
-        <NavbarItem className="hidden lg:flex gap-2">
           {
             user?.email ?
               <DropDownButton />
@@ -71,6 +69,12 @@ export const Navbar = () => {
 
       <NavbarContent className="lg:hidden basis-1 pl-4" justify="end">
         <ThemeSwitch />
+        {
+          user?.email ?
+            <DropDownButton />
+            :
+            <Link className="border rounded p-2 bg-primary text-white" href="/login">Login</Link>
+        }
         <NavbarMenuToggle />
       </NavbarContent>
 
