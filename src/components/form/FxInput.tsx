@@ -20,7 +20,7 @@ const FxInput = ({ required = false, type = "text", name, label }: IProps) => {
         className="w-full mb-2"
         type={type}
         required={required}
-        errorMessage={errors[name] ? errors[name].message as string : ""}
+        errorMessage={errors[name] ? errors[name]?.message as string : ""}
         isInvalid={!!errors[name]}
         {...register(name)}
       />

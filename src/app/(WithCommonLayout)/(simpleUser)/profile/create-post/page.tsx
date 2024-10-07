@@ -30,6 +30,11 @@ const CreatePost = () => {
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FxInput name="title" label="Title" type="text" />
+          <FxInput name="foundDAte" label="Found on" type="text" />
+          <FxInput name="location" label="Locarion" type="text" />
+          <FxInput name="city" label="City" type="text" />
+          <FxInput name="category" label="Category" type="text" />
+          <FxInput name="Upload Image" label="Image" type="text" />
 
           <Divider className="my-3" />
           <div className="flex items-center justify-between">

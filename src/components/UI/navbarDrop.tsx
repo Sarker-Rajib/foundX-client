@@ -1,13 +1,23 @@
 'use client'
+import { protectedRoutes } from "@/src/constants";
 import { useUser } from "@/src/context/user.provider";
 import { logOutUser } from "@/src/services/AuthService";
 import { Avatar } from "@nextui-org/avatar";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function DropDownButton() {
   const router = useRouter();
+  const pathname = usePathname();
   const { user, setIsLoading } = useUser();
+
+  const handleLogOut = () => {
+    logOutUser();
+    setIsLoading(true);
+    if (protectedRoutes.some((route) => pathname.match(route))) {
+      router.push('/');
+    }
+  }
 
   return (
     <Dropdown>
@@ -47,11 +57,7 @@ export default function DropDownButton() {
         <DropdownItem
           key={'logout'}
           color={"danger"}
-          onClick={() => {
-            logOutUser();
-            setIsLoading(true);
-          }
-          }
+          onClick={handleLogOut}
         >
           Log Out
         </DropdownItem>
