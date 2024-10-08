@@ -14,6 +14,7 @@ import { DateToISo } from "@/src/utils/dateToISO";
 import FxInput from "@/src/components/form/FxInput";
 import FxSelect from "@/src/components/form/FxSelect";
 import { allDistict } from '@bangladeshi/bangladesh-address'
+import { useGetCategories } from "@/src/hooks/categories.hook";
 
 // cities
 const cityOptions = allDistict().sort().map((city: string) => (
@@ -25,6 +26,16 @@ const cityOptions = allDistict().sort().map((city: string) => (
 
 
 const CreatePost = () => {
+  const { data: categories, isLoading: categoryLoading } = useGetCategories();
+
+  let categoriesOptions: { key: string, label: string }[] = []
+  if (categories?.data && !categoryLoading) {
+    categoriesOptions = categories?.data.map(item => ({ key: item._id, label: item.name }))
+  }
+  console.log(categoriesOptions);
+
+
+
   const methods = useForm();
   const { control, handleSubmit } = methods;
   const { fields, append, remove } = useFieldArray({
@@ -54,7 +65,7 @@ const CreatePost = () => {
           <FxInput label="Date" name="dateFound" type="date" />
           <FxInput label="Location" name="location" type="text" />
           <FxSelect options={cityOptions} name="city" label="City" />
-          <FxInput label="Category" name="category" type="text" />
+          <FxSelect options={categoriesOptions} name="category" label="Category" />
           <FxInput label="Image" name="image" type="text" />
 
           <Divider className="my-3" />
