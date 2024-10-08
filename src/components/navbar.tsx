@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import {
   Navbar as NextUINavbar,
   NavbarContent,
@@ -13,13 +13,11 @@ import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
 
+import DropDownButton from "./UI/navbarDrop";
+
 import { siteConfig } from "@/src/config/site";
 import { ThemeSwitch } from "@/src/components/theme-switch";
-import {
-  Logo
-} from "@/src/components/icons";
-
-import DropDownButton from "./UI/navbarDrop";
+import { Logo } from "@/src/components/icons";
 import { useUser } from "@/src/context/user.provider";
 
 export const Navbar = () => {
@@ -58,23 +56,31 @@ export const Navbar = () => {
       >
         <NavbarItem className="hidden lg:flex gap-2">
           <ThemeSwitch />
-          {
-            user?.email ?
-              <DropDownButton />
-              :
-              <Link className="border rounded p-2 bg-primary text-white" href="/login">Login</Link>
-          }
+          {user?.email ? (
+            <DropDownButton />
+          ) : (
+            <Link
+              className="border rounded p-2 bg-primary text-white"
+              href="/login"
+            >
+              Login
+            </Link>
+          )}
         </NavbarItem>
       </NavbarContent>
 
       <NavbarContent className="lg:hidden basis-1 pl-4" justify="end">
         <ThemeSwitch />
-        {
-          user?.email ?
-            <DropDownButton />
-            :
-            <Link className="border rounded p-2 bg-primary text-white" href="/login">Login</Link>
-        }
+        {user?.email ? (
+          <DropDownButton />
+        ) : (
+          <Link
+            className="border rounded p-2 bg-primary text-white"
+            href="/login"
+          >
+            Login
+          </Link>
+        )}
         <NavbarMenuToggle />
       </NavbarContent>
 

@@ -1,7 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { loginUser, registerUser } from "../services/AuthService";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
+
+import { loginUser, registerUser } from "../services/AuthService";
 
 export const useUserRegistration = () => {
   return useMutation<any, Error, FieldValues>({
@@ -12,9 +13,9 @@ export const useUserRegistration = () => {
     },
     onError: () => {
       toast.error("User Registration Failed !");
-    }
-  })
-}
+    },
+  });
+};
 
 export const useUserLogin = () => {
   return useMutation<any, Error, FieldValues>({
@@ -25,6 +26,6 @@ export const useUserLogin = () => {
     },
     onError: () => {
       toast.error("User Login Failed !");
-    }
-  })
-}
+    },
+  });
+};

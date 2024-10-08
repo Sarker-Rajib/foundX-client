@@ -1,6 +1,8 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { getCurrentUser } from './services/AuthService';
+import type { NextRequest } from "next/server";
+
+import { NextResponse } from "next/server";
+
+import { getCurrentUser } from "./services/AuthService";
 
 const AuthRoutes = ["/login", "/register"];
 
@@ -14,7 +16,7 @@ const RoleBasedRoutes = {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
   // console.log(user);
 
   // If the user is not authenticated
@@ -22,7 +24,9 @@ export async function middleware(request: NextRequest) {
     if (AuthRoutes.includes(pathname)) {
       return NextResponse.next();
     } else {
-      return NextResponse.redirect(new URL(`/login?redirect=${pathname}`, request.url));
+      return NextResponse.redirect(
+        new URL(`/login?redirect=${pathname}`, request.url),
+      );
     }
   }
 
@@ -35,11 +39,11 @@ export async function middleware(request: NextRequest) {
   }
 
   // If none of the conditions matched, redirect to the home page
-  return NextResponse.redirect(new URL('/', request.url));
+  return NextResponse.redirect(new URL("/", request.url));
 }
 
 export const config = {
-  matcher: ['/login', '/register', '/admin', '/profile', '/profile/:page*'],
+  matcher: ["/login", "/register", "/admin", "/profile", "/profile/:page*"],
 };
 
 // import { NextResponse } from "next/server";

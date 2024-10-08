@@ -8,4 +8,4 @@ export const getRecentPosts = async () => {
   await delay(2000);
 
   return data;
-}
+};

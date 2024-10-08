@@ -1,10 +1,17 @@
-'use client'
+"use client";
+import { Avatar } from "@nextui-org/avatar";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+} from "@nextui-org/react";
+import { usePathname, useRouter } from "next/navigation";
+
 import { protectedRoutes } from "@/src/constants";
 import { useUser } from "@/src/context/user.provider";
 import { logOutUser } from "@/src/services/AuthService";
-import { Avatar } from "@nextui-org/avatar";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
-import { usePathname, useRouter } from "next/navigation";
 
 export default function DropDownButton() {
   const router = useRouter();
@@ -15,50 +22,40 @@ export default function DropDownButton() {
     logOutUser();
     setIsLoading(true);
     if (protectedRoutes.some((route) => pathname.match(route))) {
-      router.push('/');
+      router.push("/");
     }
-  }
+  };
 
   return (
     <Dropdown>
       <DropdownTrigger>
-        <Button
-          className="w-[50px] p-0"
-          variant="light"
-        >
+        <Button className="w-[50px] p-0" variant="light">
           <Avatar isBordered radius="full" src={user?.profilePhoto} />
         </Button>
       </DropdownTrigger>
-      <DropdownMenu aria-label="Nav Actions" >
-        <DropdownItem
-          key={'profile'}
-          onClick={() => router.push("/profile")}
-        >
+      <DropdownMenu aria-label="Nav Actions">
+        <DropdownItem key={"profile"} onClick={() => router.push("/profile")}>
           Profile
         </DropdownItem>
         <DropdownItem
-          key={'settings'}
+          key={"settings"}
           onClick={() => router.push("/profile/settings")}
         >
           Settings
         </DropdownItem>
         <DropdownItem
-          key={'about'}
+          key={"about"}
           onClick={() => router.push("/profile/create-post")}
         >
           Create Post
         </DropdownItem>
         <DropdownItem
-          key={'claim'}
+          key={"claim"}
           onClick={() => router.push("/profile/claim-requests")}
         >
           Claim Requests
         </DropdownItem>
-        <DropdownItem
-          key={'logout'}
-          color={"danger"}
-          onClick={handleLogOut}
-        >
+        <DropdownItem key={"logout"} color={"danger"} onClick={handleLogOut}>
           Log Out
         </DropdownItem>
       </DropdownMenu>

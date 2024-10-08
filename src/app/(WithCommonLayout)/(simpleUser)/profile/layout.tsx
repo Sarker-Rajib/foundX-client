@@ -1,5 +1,6 @@
-import Sidebar from "@/src/components/UI/Sidebar";
 import { ReactNode } from "react";
+
+import Sidebar from "@/src/components/UI/Sidebar";
 
 const UserLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -8,9 +9,7 @@ const UserLayout = ({ children }: { children: ReactNode }) => {
         {/* sidebar */}
         <Sidebar />
       </div>
-      <div className="col-span-3">
-        {children}
-      </div>
+      <div className="col-span-3">{children}</div>
     </div>
   );
 };
