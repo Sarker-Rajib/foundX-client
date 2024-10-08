@@ -15,6 +15,7 @@ import FxInput from "@/src/components/form/FxInput";
 import FxSelect from "@/src/components/form/FxSelect";
 import { allDistict } from '@bangladeshi/bangladesh-address'
 import { useGetCategories } from "@/src/hooks/categories.hook";
+import { ChangeEvent, useState } from "react";
 
 // cities
 const cityOptions = allDistict().sort().map((city: string) => (
@@ -24,17 +25,19 @@ const cityOptions = allDistict().sort().map((city: string) => (
   }
 ))
 
-
 const CreatePost = () => {
-  const { data: categories, isLoading: categoryLoading } = useGetCategories();
+  const [imageFiles, setImageFiles] = useState<File[] | []>([])
+
+  const {
+    data: categories,
+    isLoading: categoryLoading,
+    isSuccess: categorySuccess
+  } = useGetCategories();
 
   let categoriesOptions: { key: string, label: string }[] = []
   if (categories?.data && !categoryLoading) {
-    categoriesOptions = categories?.data.map(item => ({ key: item._id, label: item.name }))
+    categoriesOptions = categories?.data.map((item: any) => ({ key: item._id, label: item.name }))
   }
-  console.log(categoriesOptions);
-
-
 
   const methods = useForm();
   const { control, handleSubmit } = methods;
@@ -42,6 +45,14 @@ const CreatePost = () => {
     control,
     name: "questions",
   });
+
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const imagefile = e.target.files![0];
+    setImageFiles((prev => [...prev, imagefile]))
+  }
+
+  console.log(imageFiles);
+
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const postData = {
@@ -61,12 +72,28 @@ const CreatePost = () => {
     <div className="p-2">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FxInput label="Title" name="title" type="text" />
-          <FxInput label="Date" name="dateFound" type="date" />
-          <FxInput label="Location" name="location" type="text" />
-          <FxSelect options={cityOptions} name="city" label="City" />
-          <FxSelect options={categoriesOptions} name="category" label="Category" />
-          <FxInput label="Image" name="image" type="text" />
+          <div className="grid grid-cols-2 gap-2">
+            <FxInput label="Title" name="title" type="text" />
+            <FxInput label="Date" name="dateFound" type="date" />
+            <FxInput label="Location" name="location" type="text" />
+            <FxSelect options={cityOptions} name="city" label="City" />
+            <FxSelect options={categoriesOptions} name="category" label="Category" disabled={!categorySuccess} />
+
+            <div>
+              <label
+                htmlFor="image"
+                className="cursor-pointer flex bg-slate-800 p-2 rounded-lg"
+              >
+                Upload Image
+              </label>
+              <input
+                onChange={(e) => handleImageChange(e)}
+                className="hidden"
+                type="file"
+                name="image" id="image"
+              />
+            </div>
+          </div>
 
           <Divider className="my-3" />
           <div className="flex items-center justify-between">

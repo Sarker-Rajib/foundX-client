@@ -9,7 +9,7 @@ interface IProps extends IInput {
   }[];
 }
 
-const FxSelect = ({ options, name, label }: IProps) => {
+const FxSelect = ({ options, name, label, disabled }: IProps) => {
   const {
     register,
     formState: { errors },
@@ -20,7 +20,9 @@ const FxSelect = ({ options, name, label }: IProps) => {
       {...register(name)}
       errorMessage={errors[name] ? (errors[name]?.message as string) : ""}
       className="my-2"
-      label={label}>
+      label={label}
+      isDisabled={disabled}
+    >
       {options.map((option) => (
         <SelectItem key={option.key}>{option.label}</SelectItem>
       ))}

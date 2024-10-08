@@ -16,8 +16,7 @@ const FxInput = ({ required = false, type = "text", name, label }: IProps) => {
   } = useFormContext();
 
   return (
-    <>
-      <label className="ms-2 pb-1 text-sm text-green-500">{label}</label>
+    <div>
       <Input
         {...register(name)}
         className="w-full mb-2"
@@ -25,8 +24,9 @@ const FxInput = ({ required = false, type = "text", name, label }: IProps) => {
         isInvalid={!!errors[name]}
         required={required}
         type={type}
+        label={label}
       />
-    </>
+    </div>
   );
 };
 
