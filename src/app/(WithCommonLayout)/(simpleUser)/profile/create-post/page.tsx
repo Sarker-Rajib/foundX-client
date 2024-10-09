@@ -9,34 +9,46 @@ import {
   useFieldArray,
   useForm,
 } from "react-hook-form";
+import { allDistict } from "@bangladeshi/bangladesh-address";
+import { ChangeEvent, useState } from "react";
 
 import { DateToISo } from "@/src/utils/dateToISO";
 import FxInput from "@/src/components/form/FxInput";
 import FxSelect from "@/src/components/form/FxSelect";
-import { allDistict } from '@bangladeshi/bangladesh-address'
 import { useGetCategories } from "@/src/hooks/categories.hook";
-import { ChangeEvent, useState } from "react";
+import FxTextAtrea from "@/src/components/form/FxTextArea";
+import { useUser } from "@/src/context/user.provider";
+import { useCreatePost } from "@/src/hooks/post.hook";
 
 // cities
-const cityOptions = allDistict().sort().map((city: string) => (
-  {
+const cityOptions = allDistict()
+  .sort()
+  .map((city: string) => ({
     key: city,
-    label: city
-  }
-))
+    label: city,
+  }));
 
 const CreatePost = () => {
-  const [imageFiles, setImageFiles] = useState<File[] | []>([])
+  const [imageFiles, setImageFiles] = useState<File[] | []>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[] | []>([]);
+
+  const { mutate: handleCreatePost } = useCreatePost();
+
+  const { user } = useUser();
 
   const {
     data: categories,
     isLoading: categoryLoading,
-    isSuccess: categorySuccess
+    isSuccess: categorySuccess,
   } = useGetCategories();
 
-  let categoriesOptions: { key: string, label: string }[] = []
+  let categoriesOptions: { key: string; label: string }[] = [];
+
   if (categories?.data && !categoryLoading) {
-    categoriesOptions = categories?.data.map((item: any) => ({ key: item._id, label: item.name }))
+    categoriesOptions = categories?.data.map((item: any) => ({
+      key: item._id,
+      label: item.name,
+    }));
   }
 
   const methods = useForm();
@@ -47,21 +59,37 @@ const CreatePost = () => {
   });
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    const imagefile = e.target.files![0];
-    setImageFiles((prev => [...prev, imagefile]))
-  }
+    const iFile = e.target.files![0];
 
-  console.log(imageFiles);
+    setImageFiles((prev) => [...prev, iFile]);
 
+    if (iFile) {
+      const reader = new FileReader();
 
+      reader.onloadend = () => {
+        setImagePreviews((prev) => [...prev, reader.result as string]);
+      };
+      reader.readAsDataURL(iFile);
+    }
+  };
+
+  // handle form submit
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const formdata = new FormData();
+
     const postData = {
       ...data,
       questions: data.questions.map((que: { value: string }) => que.value),
       dateFound: DateToISo(data.dateFound),
+      user: user!._id,
     };
 
-    console.log(postData);
+    formdata.append("data", JSON.stringify(postData));
+    for (let image of imageFiles) {
+      formdata.append("itemImage", image);
+    }
+
+    handleCreatePost(formdata);
   };
 
   const handleFieldAppend = () => {
@@ -76,26 +104,40 @@ const CreatePost = () => {
             <FxInput label="Title" name="title" type="text" />
             <FxInput label="Date" name="dateFound" type="date" />
             <FxInput label="Location" name="location" type="text" />
-            <FxSelect options={cityOptions} name="city" label="City" />
-            <FxSelect options={categoriesOptions} name="category" label="Category" disabled={!categorySuccess} />
+            <FxSelect label="City" name="city" options={cityOptions} />
+            <FxSelect
+              disabled={!categorySuccess}
+              label="Category"
+              name="category"
+              options={categoriesOptions}
+            />
 
             <div>
               <label
-                htmlFor="image"
                 className="cursor-pointer flex bg-slate-800 p-2 rounded-lg"
+                htmlFor="image"
               >
                 Upload Image
               </label>
               <input
-                onChange={(e) => handleImageChange(e)}
                 className="hidden"
+                id="image"
+                name="image"
                 type="file"
-                name="image" id="image"
+                onChange={(e) => handleImageChange(e)}
               />
+              <div className="flex mt-2">
+                {imagePreviews.length &&
+                  imagePreviews.map((url, i) => (
+                    <img key={i} alt="itemPhoto" src={url} width={60} />
+                  ))}
+              </div>
             </div>
           </div>
 
           <Divider className="my-3" />
+          <FxTextAtrea label="Details" name="description" />
+
           <div className="flex items-center justify-between">
             <h1>Owner Verification questions !</h1>
             <Button onClick={handleFieldAppend}>Add a Question !</Button>

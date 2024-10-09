@@ -1,33 +1,32 @@
 "use client";
-import { Input } from "@nextui-org/input";
+import { Textarea } from "@nextui-org/input";
 import { useFormContext } from "react-hook-form";
 
 interface IProps {
   required?: boolean;
-  type: string;
   name: string;
   label: string;
 }
 
-const FxInput = ({ required = false, type = "text", name, label }: IProps) => {
+const FxTextAtrea = ({ required = false, name, label }: IProps) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
 
   return (
-    <div>
-      <Input
+    <>
+      <Textarea
         {...register(name)}
         className="w-full mb-2"
         errorMessage={errors[name] ? (errors[name]?.message as string) : ""}
         isInvalid={!!errors[name]}
         label={label}
+        minRows={6}
         required={required}
-        type={type}
       />
-    </div>
+    </>
   );
 };
 
-export default FxInput;
+export default FxTextAtrea;

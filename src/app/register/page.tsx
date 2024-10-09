@@ -10,7 +10,8 @@ import { registerValidationSchema } from "@/src/schemas/register.shema";
 import { useUserRegistration } from "@/src/hooks/auth.hook";
 
 const Register = () => {
-  const { mutate: handleUserRrgistration, isPending } = useUserRegistration();
+  const { mutate: handleUserRrgistration } = useUserRegistration();
+  // const { mutate: handleUserRrgistration, isPending } = useUserRegistration();
 
   const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
     const userData = {

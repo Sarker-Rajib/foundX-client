@@ -5,8 +5,7 @@ import { format } from "date-fns";
 import { IPost } from "../types";
 
 const MyCard = ({ post }: { post: IPost }) => {
-  const { title, category, location, images, city, dateFound, _id } =
-    post || {};
+  const { title, category, location, images, city, dateFound } = post || {};
 
   return (
     <Card className="py-4">

@@ -1,6 +1,7 @@
 import { Select, SelectItem } from "@nextui-org/react";
-import { IInput } from "@/src/types";
 import { useFormContext } from "react-hook-form";
+
+import { IInput } from "@/src/types";
 
 interface IProps extends IInput {
   options: {
@@ -18,10 +19,10 @@ const FxSelect = ({ options, name, label, disabled }: IProps) => {
   return (
     <Select
       {...register(name)}
-      errorMessage={errors[name] ? (errors[name]?.message as string) : ""}
       className="my-2"
-      label={label}
+      errorMessage={errors[name] ? (errors[name]?.message as string) : ""}
       isDisabled={disabled}
+      label={label}
     >
       {options.map((option) => (
         <SelectItem key={option.key}>{option.label}</SelectItem>

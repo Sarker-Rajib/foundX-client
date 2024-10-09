@@ -8,5 +8,5 @@ export const DateToISo = (date: string) => {
     return ISOString;
   }
 
-  return (new Date().toISOString())
+  return new Date().toISOString();
 };
