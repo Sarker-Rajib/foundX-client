@@ -1,8 +1,9 @@
-"use server";
+// "use server";
 import axios from "axios";
 import { cookies } from "next/headers";
 
 import { envConfig } from "@/src/config/envConfig";
+import { log } from "util";
 
 const axiosInstance = axios.create({
   baseURL: `${envConfig.baseApi}`,
@@ -30,7 +31,10 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   function (error) {
+    console.log(error);
+
     return Promise.reject(error);
+
   },
 );
 

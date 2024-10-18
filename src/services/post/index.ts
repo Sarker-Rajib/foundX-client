@@ -1,7 +1,9 @@
 "use server";
 import axiosInstance from "@/src/lib/AxiosInstance";
+import { revalidateTag } from "next/cache";
 
 export const createPost = async (formData: FormData): Promise<any> => {
+  // console.log(formData);
   try {
     const { data } = await axiosInstance.post("/items", formData, {
       headers: {
@@ -9,8 +11,11 @@ export const createPost = async (formData: FormData): Promise<any> => {
       },
     });
 
+    revalidateTag("posts")
+
     return data;
   } catch (error) {
+    console.log(error);
     throw new Error("Failed to create post");
   }
 };

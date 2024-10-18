@@ -85,8 +85,9 @@ const CreatePost = () => {
     };
 
     formdata.append("data", JSON.stringify(postData));
+
     for (let image of imageFiles) {
-      formdata.append("itemImage", image);
+      formdata.append("itemImages", image);
     }
 
     handleCreatePost(formdata);
@@ -126,11 +127,9 @@ const CreatePost = () => {
                 type="file"
                 onChange={(e) => handleImageChange(e)}
               />
-              <div className="flex mt-2">
-                {imagePreviews.length &&
-                  imagePreviews.map((url, i) => (
-                    <img key={i} alt="itemPhoto" src={url} width={60} />
-                  ))}
+              <div className="mt-2">
+                {imagePreviews?.length > 0 &&
+                  imagePreviews.map((url) => <img key={url} alt="itemPhoto" src={url} width={60} />)}
               </div>
             </div>
           </div>

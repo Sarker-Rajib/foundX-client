@@ -1,11 +1,16 @@
 import { envConfig } from "@/src/config/envConfig";
-import { delay } from "@/src/utils/delay";
+// import { delay } from "@/src/utils/delay";
 
 export const getRecentPosts = async () => {
-  const res = await fetch(`${envConfig.baseApi}/items`);
-  const data = await res.json();
+  const fetchOptions = {
+    next: {
+      tags: ["posts"],
+    }
+  };
 
-  await delay(2000);
+  const res = await fetch(`${envConfig.baseApi}/items?sortBy=-createdAt&limit=9`, fetchOptions);
+  const data = await res.json();
+  // console.log(data);
 
   return data;
 };
